@@ -18,6 +18,7 @@ package com.j9.nifi.processors.jsontransform;
 
 import com.bazaarvoice.jolt.Chainr;
 import com.bazaarvoice.jolt.JsonUtils;
+import com.j9.nifi.jsontransform.model.EvaluationContextEntity;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;

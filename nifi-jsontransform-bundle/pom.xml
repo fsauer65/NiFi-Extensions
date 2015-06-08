@@ -28,6 +28,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>nifi-jsontransform-model</module>
         <module>nifi-jsontransform-processors</module>
         <module>nifi-jsontransform-ui</module>
         <module>nifi-jsontransform-nar</module>

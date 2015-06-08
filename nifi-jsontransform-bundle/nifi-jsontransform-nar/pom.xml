@@ -29,6 +29,11 @@
     <dependencies>
         <dependency>
             <groupId>com.j9.nifi</groupId>
+            <artifactId>nifi-jsontransform-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.j9.nifi</groupId>
             <artifactId>nifi-jsontransform-processors</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
