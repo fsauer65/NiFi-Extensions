@@ -85,8 +85,8 @@ Here you can experiment with the Jolt Transforms before saving them into the tra
         <div class="panel-heading">
             <label for="spec">Jolt Spec</label>
             <button type="button" id="specValidateButton" class="btn btn-default">JSON Validate</button>
-            <button type="button" id="specSaveButton" class="btn btn-default">Save</button>
-            <span id="message"></span>
+            <!-- <button type="button" id="specSaveButton" class="btn btn-default">Save</button>
+            <span id="message"></span>-->
         </div>
         <div class="panel-body">
             <textarea form="transformForm" class="form-control" id="spec" rows="20">
@@ -110,7 +110,14 @@ Here you can experiment with the Jolt Transforms before saving them into the tra
     </div>
 </div> <!-- column 3 -->
 </div> <!-- row 2 -->
-
+<div class="row">
+    <div>
+        <div class="col-lg-11 text-right" id="message"></div>
+        <div class="col-lg-1">
+            <button type="button" id="specSaveButton" class="btn btn-default">Save</button></div>
+        <div class="clear"></div>
+    </div>
+</div>
 </form>
 <div id="ok-dialog">
     <div id="ok-dialog-content" class="dialog-content"></div>
