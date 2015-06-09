@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.j9.nifi.jsontransform.model;
+package org.apache.nifi.processors.jsontransform.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.j9.nifi</groupId>
-        <artifactId>jsontransform</artifactId>
+        <groupId>org.apache.nifi</groupId>
+        <artifactId>nifi-jsontransform-bundle</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>nifi-jsontransform-model</artifactId>

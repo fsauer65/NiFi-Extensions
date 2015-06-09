@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.j9.nifi.processors.jsontransform;
+package org.apache.nifi.processors.jsontransform;
 
 import com.bazaarvoice.jolt.Chainr;
 import com.bazaarvoice.jolt.JsonUtils;
-import com.j9.nifi.jsontransform.model.EvaluationContextEntity;
+import org.apache.nifi.processors.jsontransform.model.EvaluationContextEntity;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.ValidationContext;
 import org.apache.nifi.components.ValidationResult;
@@ -44,6 +44,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Tags({"json", "transform", "transformation", "jolt"})
 @CapabilityDescription("Performs Json to Json transformations using Jolt specifications.")
@@ -64,6 +65,8 @@ public class TransformJson extends AbstractProcessor {
             .build();
 
     private Set<Relationship> relationships;
+
+    AtomicBoolean isValid = new AtomicBoolean(true);
 
     @Override
     protected void init(final ProcessorInitializationContext context) {
@@ -92,7 +95,7 @@ public class TransformJson extends AbstractProcessor {
 
     @Override
     public Collection<ValidationResult> customValidate(ValidationContext validationContext) {
-        Collection result = super.customValidate(validationContext);
+        Collection result = new ArrayList(super.customValidate(validationContext));
         String configData = validationContext.getAnnotationData();
         if (configData == null || configData.length()==0) {
             ValidationResult emptyConfig = new ValidationResult.Builder()
@@ -113,11 +116,14 @@ public class TransformJson extends AbstractProcessor {
                 getLogger().warn("Invalid transformation");
             }
         }
+        isValid.set(result.isEmpty());
         return result;
     }
 
     @Override
     public void onTrigger(final ProcessContext context, final ProcessSession session) throws ProcessException {
+        if (!isValid.get()) return; // silence warnings?
+
         final FlowFile original = session.get();
 		if ( original == null ) {
 			return;

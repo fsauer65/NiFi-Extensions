@@ -17,8 +17,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.j9.nifi</groupId>
-        <artifactId>jsontransform</artifactId>
+        <groupId>org.apache.nifi</groupId>
+        <artifactId>nifi-jsontransform-bundle</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -28,17 +28,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.j9.nifi</groupId>
+            <groupId>org.apache.nifi</groupId>
             <artifactId>nifi-jsontransform-model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.j9.nifi</groupId>
+            <groupId>org.apache.nifi</groupId>
             <artifactId>nifi-jsontransform-processors</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.j9.nifi</groupId>
+            <groupId>org.apache.nifi</groupId>
             <artifactId>nifi-jsontransform-ui</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>war</type>

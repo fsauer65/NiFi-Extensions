@@ -1,8 +1,8 @@
-package com.j9.nifi.jsontransform.api;
+package org.apache.nifi.processors.jsontransform.api;
 
 import com.bazaarvoice.jolt.Chainr;
 import com.bazaarvoice.jolt.JsonUtils;
-import com.j9.nifi.jsontransform.model.EvaluationContextEntity;
+import org.apache.nifi.processors.jsontransform.model.EvaluationContextEntity;
 import org.apache.nifi.web.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
