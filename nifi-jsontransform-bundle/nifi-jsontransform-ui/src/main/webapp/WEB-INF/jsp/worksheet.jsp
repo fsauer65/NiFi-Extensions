@@ -256,6 +256,9 @@ $("#transformForm").submit(function(event) {
     posting.done(function( data ) {
         var content = data ;
         outputCodeMirror.setValue( content );
+    }).fail(function( data ) {
+        var content = data.responseText ;
+        outputCodeMirror.setValue( content );
     });
 
     // return false so that we prevent the standard form submit behavior from happening

@@ -149,8 +149,8 @@ public class TransformationResource {
             final Response.ResponseBuilder response = Response.ok(json);
             return noCache(response).build();
         } catch (Exception x) {
-            logger.warn("Failed test jolt transform", x);
-            return Response.status(Response.Status.BAD_REQUEST).entity(x.getLocalizedMessage()).build();
+            logger.error("Failed jolt transform", x);
+            return error(x.getMessage());
         }
     }
 
