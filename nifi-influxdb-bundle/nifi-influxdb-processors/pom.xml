@@ -39,8 +39,9 @@
             <artifactId>jersey-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
+            <groupId>com.bazaarvoice.jolt</groupId>
+            <artifactId>json-utils</artifactId>
+            <version>0.0.16</version>
         </dependency>
         <dependency>
             <groupId>org.apache.nifi</groupId>

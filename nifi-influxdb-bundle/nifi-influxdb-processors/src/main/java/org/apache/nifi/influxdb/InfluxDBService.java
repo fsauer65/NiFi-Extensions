@@ -1,5 +1,6 @@
 package org.apache.nifi.influxdb;
 
+import com.bazaarvoice.jolt.JsonUtils;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -134,8 +135,8 @@ public class InfluxDBService extends AbstractControllerService implements Influx
     public void init(final ConfigurationContext context) throws InitializationException {
         // test the connection
         try {
-            String measurements = query("SHOW MEASUREMENTS", false);
-            logger.debug(measurements);
+            Results measurements = query("SHOW MEASUREMENTS", false);
+            logger.debug("Connect test returned " + measurements);
         } catch (Exception x) {
             throw new InitializationException("Could not connect to InfluxDB:", x);
         }
@@ -183,14 +184,15 @@ public class InfluxDBService extends AbstractControllerService implements Influx
         return c;
     }
 
-    public String query(String query, boolean pretty) {
+    public Results query(String query, boolean pretty) {
         MultivaluedMap<String, String> params = new MultivaluedMapImpl();
         params.add("db", getProperty(DATABASE_NAME).getValue());
         if (pretty) {
             params.add("pretty", "true");
         }
         params.add("q", query);
-        return createClient().resource(base().append("/query").toString()).queryParams(params).get(String.class);
+        String result = createClient().resource(base().append("/query").toString()).queryParams(params).get(String.class);
+        return JsonUtils.stringToType(result, Results.class);
     }
 
     private void post(String data) {
