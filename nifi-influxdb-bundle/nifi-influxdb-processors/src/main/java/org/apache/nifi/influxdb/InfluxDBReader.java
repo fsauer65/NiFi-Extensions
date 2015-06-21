@@ -10,6 +10,7 @@ import org.apache.nifi.annotation.documentation.SeeAlso;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.flowfile.FlowFile;
+import org.apache.nifi.flowfile.attributes.CoreAttributes;
 import org.apache.nifi.logging.ProcessorLog;
 import org.apache.nifi.processor.*;
 import org.apache.nifi.processor.exception.ProcessException;
@@ -44,6 +45,15 @@ public class InfluxDBReader extends AbstractProcessor {
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
             .build();
 
+    public static final PropertyDescriptor FILENAME = new PropertyDescriptor.Builder()
+            .name("FILENAME").displayName("FIlename")
+            .description("Resulting Flowfile name")
+            .required(true)
+            .defaultValue("InfluxDBQueryResult.json")
+            .expressionLanguageSupported(true)
+            .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+            .build();
+
     public static final PropertyDescriptor PRETTY = new PropertyDescriptor.Builder()
             .name("PRETTY").displayName("Pretty print results")
             .description("Whether to get query result data in pretty-printed json or an optimized unformatted single line")
@@ -71,6 +81,7 @@ public class InfluxDBReader extends AbstractProcessor {
         final List<PropertyDescriptor> descriptors = new ArrayList<PropertyDescriptor>();
         descriptors.add(INFLUXDB_SERVICE);
         descriptors.add(QUERY);
+        descriptors.add(FILENAME);
         descriptors.add(PRETTY);
         this.descriptors = Collections.unmodifiableList(descriptors);
 
@@ -99,7 +110,11 @@ public class InfluxDBReader extends AbstractProcessor {
             InfluxDBServiceInterface.Results results = influxdb.query(processContext.getProperty(QUERY).getValue(), pretty);
             for (final InfluxDBServiceInterface.ResultSeries rs : results.results) {
                 FlowFile out = processSession.create();
+                out = processSession.putAttribute(out, CoreAttributes.FILENAME.key(), processContext.getProperty(FILENAME).getValue());
+                // TODO the amount of boiler plate here is ludicrous ... how about some java 8 lambdas or better yet: a Scala API?
+                // TODO the only line that actually matters is the one (1) line inside the try catch
                 if (rs.error != null) {
+                    // write error to failure
                     out = processSession.write(out, new StreamCallback() {
                         @Override
                         public void process(final InputStream rawIn, final OutputStream out) throws IOException {
@@ -112,6 +127,8 @@ public class InfluxDBReader extends AbstractProcessor {
                     });
                     processSession.transfer(out, FAILURE);
                 } else {
+                    // write query result to success
+                    out = processSession.putAttribute(out, "content-type", "application/json");
                     out = processSession.write(out, new StreamCallback() {
                         @Override
                         public void process(final InputStream rawIn, final OutputStream out) throws IOException {
@@ -129,7 +146,7 @@ public class InfluxDBReader extends AbstractProcessor {
                 }
             }
         } catch (Exception x) {
-            logger.error("Error writing influxdb measurement",x);
+            throw new ProcessException("Error querying influxdb",x);
         }
 
     }
