@@ -11,6 +11,8 @@ public interface InfluxDBServiceInterface extends ControllerService {
     void write(String measurement, double value, Map<String,String> tags);
     void write(String measurement, double value, Map<String,String> tags, long timestamp);
 
+    void write(List<String> batch); // TODO assumed to have correct format - bad but speedy
+
     Results query(String query, boolean pretty);
 
     class Series {

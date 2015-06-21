@@ -25,7 +25,7 @@ import java.util.*;
 
 
 @Tags({"influxdb", "time-series", "query"})
-@CapabilityDescription("Issues queries to an InfluxDB time-series database configured by InfluxDBService")
+@CapabilityDescription("Issues queries to an InfluxDB (v. 0.9) time-series database configured by InfluxDBService")
 @SeeAlso({InfluxDBService.class, InfluxDBWriter.class})
 
 public class InfluxDBReader extends AbstractProcessor {

@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Tags({"InfluxDB", "metrics", "time-series"})
-@CapabilityDescription("Manages connections to an InfluxDB time-series database")
+@CapabilityDescription("Manages connections to an InfluxDB (v. 0.9) time-series database")
 @SeeAlso({InfluxDBReader.class, InfluxDBWriter.class})
 public class InfluxDBService extends AbstractControllerService implements InfluxDBServiceInterface {
 
@@ -117,7 +117,7 @@ public class InfluxDBService extends AbstractControllerService implements Influx
         props.add(PASSWORD);
         props.add(DATABASE_NAME);
         props.add(RETENTION_POLICY);
-
+        props.add(PRECISION);
         properties = Collections.unmodifiableList(props);
     }
 
@@ -169,6 +169,11 @@ public class InfluxDBService extends AbstractControllerService implements Influx
         StringBuilder b = new StringBuilder();
         b.append(measurement).append(',').append(tagsToString(tags)).append(" value=").append(value);
         post(b.toString());
+    }
+
+    @Override
+    public void write(List<String> batch) {
+
     }
 
     private Client createClient() {
